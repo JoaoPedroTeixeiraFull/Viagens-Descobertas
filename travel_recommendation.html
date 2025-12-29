@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viagens & Descobertas</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2c7da0;
+            --primary-dark: #1e6091;
+            --dark: #0d1b2a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: var(--light);
+            scroll-behavior: smooth;
+        }
+
+        /* === Navegação === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: background 0.4s;
+        }
+
+        header.scrolled {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(12px);
+        }
+
+        nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.4rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            position: relative;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.35s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* === Seções === */
+        section {
+            padding: 9rem 1.5rem 7rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: clamp(2.6rem, 6vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--dark);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.15rem;
+            max-width: 720px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* === Hero === */
+        #hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(13,27,42,0.62), rgba(13,27,42,0.78)),
+                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2940&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 860px;
+            padding: 0 1.5rem;
+        }
+
+        /* === Cards === */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.32s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .card-img {
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.07);
+        }
+
+        .card-content {
+            padding: 1.6rem;
+        }
+
+        .card h3 {
+            font-size: 1.38rem;
+            margin-bottom: 0.7rem;
+            color: var(--primary-dark);
+        }
+
+        /* === Formulário === */
+        .form-container {
+            max-width: 640px;
+            margin: 3.5rem auto 0;
+            background: white;
+            padding: 2.8rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.9rem 1.1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.25s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.15);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.4rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* === Footer === */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.6rem;
+            }
+            
+            section {
+                padding: 7rem 1rem 5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                gap: 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="#" class="logo">Viagens & Descobertas</a>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active">Início</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section id="hero">
+    <div class="hero-content">
+        <h1>Descubra os Melhores Destinos do Mundo</h1>
+        <p style="font-size:1.25rem; margin:1.6rem 0 2rem; opacity:0.92;">
+            Experiências autênticas • Praias paradisíacas • Templos históricos • Culturas fascinantes
+        </p>
+        <button class="btn">Planeje sua viagem</button>
+    </div>
+</section>
+
+<!-- Sobre -->
+<section id="sobre">
+    <div class="container">
+        <h2>Quem Somos</h2>
+        <p class="subtitle">
+            Somos apaixonados por viagens e por criar experiências que ficam na memória para sempre.
+        </p>
+        <div style="max-width:720px; margin:0 auto; text-align:center;">
+            <p style="margin-bottom:1.6rem;">
+                Com mais de 8 anos de experiência, já ajudamos milhares de viajantes a encontrar os destinos perfeitos para o seu estilo de viagem.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Recomendações -->
+<section style="background:#f1f5f9;">
+    <div class="container">
+        <h2>Nossas Recomendações</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800" alt="Praia tropical" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Melhores Praias do Sudeste Asiático</h3>
+                    <p>De águas cristalinas da Tailândia às ilhas secretas das Filipinas</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800" alt="Templo antigo" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Templos Mais Impressionantes</h3>
+                    <p>Angkor Wat, templos japoneses, mosteiros na Índia e muito mais</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=800" alt="Veneza Itália" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Itália em 2025</h3>
+                    <p>Cidades históricas, gastronomia incrível, litoral e paisagens inesquecíveis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contato -->
+<section id="contato" style="background:var(--dark); color:white;">
+    <div class="container">
+        <h2 style="color:white;">Planeje sua próxima viagem conosco</h2>
+        <p class="subtitle" style="color:#cbd5e1;">
+            Conte-nos o que você procura e vamos criar o roteiro perfeito para você!
+        </p>
+
+        <div class="form-container">
+            <form>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" required placeholder="Seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="mensagem">O que você deseja na próxima viagem?</label>
+                    <textarea id="mensagem" rows="5" required placeholder="Ex: praia calma no sudeste asiático, templos no Japão..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Enviar mensagem</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 Viagens & Descobertas • Feito com carinho para quem ama viajar</p>
+</footer>
+
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        document.querySelector('header').classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Smooth scroll + active link
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            link.classList.add('active');
+
+            document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+</body>
+</html>
